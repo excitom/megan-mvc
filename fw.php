@@ -2,7 +2,7 @@
 /*
  * This is the file for launching the framework
  */
-#require_once $_SERVER['FW_ROOT'].'/config.php';
+date_default_timezone_set('America/Los_Angeles');
 
 /*
  * Autoload function
@@ -72,6 +72,7 @@ while (!empty($parts) && !$found) {
 		// If there is a corresponding view, preload the class file
 		$view = $_SERVER['FW_ROOT'] . '/views' . $class . '-view.php';
 		@include_once $view;
+		
 		$c = new $className( $parameter );
 		$c->run();
 	} else {

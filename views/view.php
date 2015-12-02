@@ -32,9 +32,9 @@ CSS;
 	/*
 	 * This is the main function for rendering a web page.
 	 */
-	public function run() {
+	public function run( $mainSection = ''  ) {
 		$head = $this->getHeadSection();
-		$body = $this->getBodySection();
+		$body = $this->getBodySection( $mainSection );
 		$js = $this->getInlineJs();
 		print <<<HTML
 <!DOCTYPE {$this->docType}>
@@ -177,9 +177,9 @@ HTML;
 	/**
 	 * Generate the BODY section of the page
 	 */
-	protected function getBodySection() {
+	protected function getBodySection( $mainSection = '' ) {
 		$topMargin = $this->getTopMargin();
-		$mainSection = $this->getMainSection();
+		$mainSection = $this->getMainSection( $mainSection );
 		$footer = $this->getFooter();
 
 		return <<<HTML
