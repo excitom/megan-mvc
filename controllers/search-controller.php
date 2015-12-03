@@ -52,6 +52,7 @@ class SearchController extends Controller {
 		}
 
 		$m = new SearchModel( $this->engines );
-		return $m->run();
+		print '<pre>';print_r( $m->run($this->parameters));
+		return;
 	}
 }
