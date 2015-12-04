@@ -12,17 +12,14 @@ class SearchController extends Controller {
 	public function __construct( $parameters ) {
 		// parse the query string to find search keywords
 		// and also the choice of search engine(s)
-		if (!empty($_SERVER['QUERY_STRING'])) {
-			$parms = explode('&', $_SERVER['QUERY_STRING']);
-			foreach ($parms as $p) {
-				list($k, $v) = explode('=', $p);
-				if ($k == 'keywords') {
-					$this->parameters = $v;
-				}
-				elseif ($k == 'engines') {
-					$this->engines[$v] = true;
-				}
-			}
+		if (isset($_GET['keywords'])) {
+			$this->parameters = $_GET['keywords'];
+		}
+		if (isset($_GET['useGoogle'])) {
+			$this->engines['g'] = true;
+		}
+		if (isset($_GET['useBing'])) {
+			$this->engines['b'] = true;
 		}
 
 		// keywords may also be passed in as part of the URL
@@ -52,7 +49,6 @@ class SearchController extends Controller {
 		}
 
 		$m = new SearchModel( $this->engines );
-		print '<pre>';print_r( $m->run($this->parameters));
-		return;
+		return $m->run($this->parameters);
 	}
 }

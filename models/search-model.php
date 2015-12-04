@@ -9,7 +9,7 @@ class SearchModel extends Model {
 	private $bingKey = "+/rYkHoUU0dxudX1aIcamWjNXjc7gTjaztAL5GB0xQc";
 	private $bingUrl = 'https://api.datamarket.azure.com/Bing/Search/';
 
-	private $googleUrl = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={Query}&userip={IP}';
+	private $googleUrl = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={Query}&userip={IP}&rsz=large';
 
 	// curl handles
 	private $gch = null;
@@ -58,8 +58,7 @@ class SearchModel extends Model {
 
 	private function setupBing( $query ) {
 		$WebSearchURL = $this->bingUrl . 'Web?$format=json&Query=';
-		$url = $WebSearchURL . urlencode( '\'{Query}\'');
-		$url = str_replace('{Query}', urlencode($query), $url);
+		$url = $WebSearchURL . urlencode( '\''.$query.'\'');
 
 		$ch = curl_init();
 		$headers = array(
@@ -108,11 +107,11 @@ class SearchModel extends Model {
 		// all of our requests are done, we can now access the response
 		$response = array();
 		if ($this->gch) {
-			$response[] = curl_multi_getcontent($this->gch);
+			$response['g'] = curl_multi_getcontent($this->gch);
 			curl_close($this->gch);
 		}
 		if ($this->bch) {
-			$response[] = curl_multi_getcontent($this->bch);
+			$response['b'] = curl_multi_getcontent($this->bch);
 			curl_close($this->bch);
 		}
 		return $response;
