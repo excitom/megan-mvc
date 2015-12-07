@@ -6,7 +6,7 @@ class SearchModel extends Model {
 	private $google = false;
 	private $bing = false;
 
-	private $bingKey = "xxxxxxxxxxxxxxxxxxxxxxx";
+	private $bingKey;
 	private $bingUrl = 'https://api.datamarket.azure.com/Bing/Search/';
 
 	private $googleUrl = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={Query}&userip={IP}&rsz=large';
@@ -22,6 +22,10 @@ class SearchModel extends Model {
 		if (isset($engines['b'])) {
 			$this->bing = true;
 		}
+
+		$this->ip = $_SERVER['REMOTE_ADDR'];
+		$this->bingKey = $_SERVER['BING_KEY'];
+
 	}
 
 	public function setIp( $ip ) {
