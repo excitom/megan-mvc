@@ -1,12 +1,12 @@
 <?php
 class SearchModel extends Model {
-	private $ip;
+	private $ip = '';
 	private $referrer = 'http://megan.halsoft.com/search/';
 
 	private $google = false;
 	private $bing = false;
 
-	private $bingKey;
+	private $bingKey = '';
 	private $bingUrl = 'https://api.datamarket.azure.com/Bing/Search/';
 
 	private $googleUrl = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q={Query}&userip={IP}&rsz=large';
