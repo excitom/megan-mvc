@@ -214,7 +214,8 @@ HTML;
         <li class="dropdown">
           <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Demonstration Functions <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/search">Search</a></li>
+            <li><a href="/search">Search using Google and Bing</a></li>
+            <li><a href="/products">Search using Amazon</a></li>
           </ul>
         </li>
       </ul>
