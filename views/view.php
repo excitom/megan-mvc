@@ -27,6 +27,28 @@ class View {
 CSS;
 		$this->addCss($css);
 
+		$this->setTrackingCookie();
+
+	}
+
+	/**
+	 * We track visitors to the website by setting a unique ID string into
+	 * a cookie.
+	 */
+	private function setTrackingCookie() {
+		if (!isset($_COOKIE['u'])) {
+			// split the domain name apart
+			$d = explode('.', $_SERVER['SERVER_NAME']);
+			// get the last piece
+			$d2 = array_pop($d);
+			// get the second to last piece
+			$d1 = array_pop($d);
+			// get the base domain name (regardless of how many parts it has)
+			$domain = '.'.$d1.'.'.$d2;
+			// create a unique string
+			$uid = md5($_SERVER['REMOTE_ADDR'].$_SERVER['REQUEST_TIME']);
+			setcookie( 'u', $uid, 0, '/', $domain);
+		}
 	}
 
 	/*
