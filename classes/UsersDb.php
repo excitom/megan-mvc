@@ -29,8 +29,28 @@ SQL;
 	}
 
 	public function getUserById( $id ) {
-		#$dbh
+		return $this->getRow( 'id', $id );
 	}
 
+	public function getUserByName( $nickName ) {
+		return $this->getRow( 'nickName', $nickName );
+	}
+
+	public function getUserByEmail( $email ) {
+		return $this->getRow( 'email', $email );
+	}
+
+	private function getRow( $col, $key ) {
+		$sql = "SELECT * FROM users WHERE $col = :$col";
+		$q = $this->dbh->prepare($sql);
+		$q->bindValue( ":$col", $key );
+		$res = $q->execute();
+		if ($res) {
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+			return $rows;
+		} else {
+			return $res;
+		}
+	}
 
 }
