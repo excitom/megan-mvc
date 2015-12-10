@@ -7,6 +7,7 @@ class View {
 	private $scriptLinks = array();
 	private $cssLinks = array();
 	private $metaTags = array();
+	private $modalWindows = array();
 	private $cdnUrl = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6';
 
 	// keep track of which menu item is active in the nav bar
@@ -213,14 +214,34 @@ HTML;
 		$topMargin = $this->getTopMargin();
 		$mainSection = $this->getMainSection( $mainSection );
 		$footer = $this->getFooter();
+		$modalWindows = $this->getModalWindows();
 
 		return <<<HTML
 <body role="document">
 $topMargin
 $mainSection
 $footer
+$modalWindows
 </body>
 HTML;
+	}
+
+    /**
+	 * Add a modal window to the page
+	 */
+	public function addModalWindow( $html ) {
+		$this->modalWindows[] = $html;
+	}
+
+	/**
+	 * Generate HTML for modal windows, if any
+	 */
+	protected function getModalWindows() {
+		$html = '';
+		if (!empty($this->modalWindows)) {
+			$html = join("\n", $this->modalWindows);
+		}
+		return $html;
 	}
 
 	/**
@@ -295,7 +316,6 @@ HTML;
 	 *   -- logout link
 	 */
 	private function getUserArea() {
-		return '';
 		if (!isset($_COOKIE['n'])) {
 			return $this->getAnonymousUser();
 		}
@@ -308,25 +328,21 @@ HTML;
 	}
 
 	private function getAnonymousUser() {
-		$modal = $this->getRegisterModal();
+		$this->getRegisterModal();
 
 		return <<<HTML
 <ul class="nav navbar-nav navbar-right">
   <li>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#registerModal">
-      Register Now!
-    </button>
+    <button style="margin-top: 10px;" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#registerModal">Register Now!</button>
   </li>
 </ul>
-
-$modal
 HTML;
 	}
 
 	private function getRegisterModal() {
 		$form = $this->getRegisterForm();
 
-		return <<<HTML
+		$html =<<<HTML
 <div id="registerModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -345,6 +361,7 @@ $form
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 HTML;
+		$this->addModalWindow( $html );
 	}
 
 	private function getRegisterForm() {
@@ -395,9 +412,8 @@ HTML;
   <div class="jumbotron">
 	<h2>PHP Framework</h2>
 	<p>
-	This is a demonstration framework that I built.
-	The PHP code is my own. 
-	The CSS is the Twitter Bootstrap theme with minimal customization
+	If you are seeing this, the page containing this class did not
+	build its own main section.
 	</p>
   </div>
 </div>
