@@ -7,19 +7,23 @@ class View {
 	private $scriptLinks = array();
 	private $cssLinks = array();
 	private $metaTags = array();
+	private $cdnUrl = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6';
+
+	// keep track of which menu item is active in the nav bar
+	private $navActive = array( 'home' => '', 'about' => '', 'contact' => '', 'examples' => '' );
 
 	public function __construct( $title = "Megan's Framework", $docType = 'HTML' ) {
 		$this->title = $title;
 		$this->docType = $docType;
 
 		// global css
-		$this->addCssLink('//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css');
-		$this->addCssLink('//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css');
+		$this->addCssLink($this->cdnUrl.'/css/bootstrap.min.css');
+		$this->addCssLink($this->cdnUrl.'/css/bootstrap-theme.min.css');
 
 		// global javascript
-		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js");
-		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js");
-		$this->addScriptLink("//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js");
+		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
+		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js");
+		$this->addScriptLink($this->cdnUrl.'/js/bootstrap.min.js');
 
 		$css =<<<CSS
 .footertext { text-align: center; }
@@ -91,9 +95,15 @@ HTML;
 	 * Generate META tags for the page
 	 */
 	protected function getMetaTags() {
-		$tags = '';
+		$tags = array();
+
+		// start with required tags for responsiveness
+		$tags[] = '<meta charset="utf-8">';
+		$tags[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge">';
+		$tags[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
+
+		// add optional tags per page
 		if (!empty($this->metaTags)) {
-			$tags = array();
 			foreach ($this->metaTags as $tag) {
 				$key = $tag[0];
 				$value = $tag[1];
@@ -102,8 +112,8 @@ HTML;
 <meta $key="$value" content="$content" />
 HTML;
 			}
-			$tags = join("\n", $tags);
 		}
+		$tags = join("\n", $tags);
 		return $tags;
 	}
 
@@ -205,7 +215,7 @@ HTML;
 		$footer = $this->getFooter();
 
 		return <<<HTML
-<body>
+<body role="document">
 $topMargin
 $mainSection
 $footer
@@ -217,34 +227,163 @@ HTML;
 	 * Generate the top margin of a web page
 	 */
 	protected function getTopMargin() {
-		$logo = '<img src="/megan-logo.png" alt="Megan Logo" width="121"/>';
+		$logo = $this->getLogo();
+		$menu = $this->getMenu();
+		$userArea = $this->getUserArea();
+
 		return <<<HTML
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-  <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" style="padding: 5px;" href="/">$logo</a>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+		  $logo
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+$menu
+$userArea
+        </div><!--/.nav-collapse -->
+      </div><!--/.container -->
+    </nav>
+    <div class="page-header">
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Demonstration Functions <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/search">Search using Google and Bing</a></li>
-            <li><a href="/products">Search using Amazon</a></li>
-          </ul>
-        </li>
-      </ul>
-	</div>
-  </div>
-</nav>
 HTML;
+	}
+
+	private function getLogo() {
+		$logo = '<img src="/megan-logo.png" alt="Megan Logo"/>';
+        return <<<HTML
+<a class="navbar-brand" href="/">$logo</a>
+HTML;
+	}
+
+	public function setNavBarActive( $item ) {
+		$this->navActive[$item] = ' class="active"';
+	}
+
+	private function getMenu() {
+		return <<<HTML
+<ul class="nav navbar-nav">
+  <li{$this->navActive['home']}><a href="/">Home</a></li>
+  <li{$this->navActive['about']}><a href="/about">About</a></li>
+  <li{$this->navActive['contact']}><a href="/contact">Contact</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="/search">Search using Google and Bing</a></li>
+      <li><a href="/products">Search using Amazon</a></li>
+    </ul>
+  </li>
+</ul> <!-- navbar-nav -->
+HTML;
+	}
+
+	/**
+	 * Get the user area for the right side of the nav bar.
+	 * This includes:
+	 * - if anonymous user, a "register now" link
+	 * - if recognized user but not logged in, a login link
+	 * - if logged in, 
+	 *   -- cart contents (if any)
+	 *   -- "my account" link
+	 *   -- name
+	 *   -- logout link
+	 */
+	private function getUserArea() {
+		return '';
+		if (!isset($_COOKIE['n'])) {
+			return $this->getAnonymousUser();
+		}
+		elseif (!isset($_COOKIE['s'])) {
+			return $this->getLoggedOutUser();
+		}
+		else {
+			return $this->getLoggedInUser();
+		}
+	}
+
+	private function getAnonymousUser() {
+		$modal = $this->getRegisterModal();
+
+		return <<<HTML
+<ul class="nav navbar-nav navbar-right">
+  <li>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#registerModal">
+      Register Now!
+    </button>
+  </li>
+</ul>
+
+$modal
+HTML;
+	}
+
+	private function getRegisterModal() {
+		$form = $this->getRegisterForm();
+
+		return <<<HTML
+<div id="registerModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Register for this Test Community</h4>
+      </div>
+      <div class="modal-body">
+$form
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Never Mind</button>
+        <button type="button" class="btn btn-primary">Register Now</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+HTML;
+	}
+
+	private function getRegisterForm() {
+		return <<<HTML
+<form>
+  <div class="form-group">
+    <label for="nickName">User Name</label>
+    <input type="text" class="form-control" id="nickName" placeholder="Choose a user name">
+  </div>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" placeholder="Your email address">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Choose a Password">
+  </div>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" id="firstName" placeholder="Your First Name">
+  </div>
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" id="lastName" placeholder="Your Last Name">
+  </div>
+  <div class="form-group">
+    <p class="help-block">Choose a user name which you will use to login to the website.</p>
+    <p class="help-block">Give us your first and last name if you want but it's up to you..</p>
+  </div>
+</form>
+HTML;
+	}
+
+	private function getLoggedOutUser() {
+		return '';
+	}
+
+	private function getLoggedInUser() {
+		return '';
 	}
 
 	/**
@@ -252,8 +391,15 @@ HTML;
 	 */
 	protected function getMainSection() {
 		return <<<HTML
-<div class="row">
-	<h3 class="col-md-offset-1 col-md-10">PHP Framework</h3>
+<div class="container theme-showcase" role="main">
+  <div class="jumbotron">
+	<h2>PHP Framework</h2>
+	<p>
+	This is a demonstration framework that I built.
+	The PHP code is my own. 
+	The CSS is the Twitter Bootstrap theme with minimal customization
+	</p>
+  </div>
 </div>
 HTML;
 	}

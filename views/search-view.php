@@ -48,8 +48,9 @@ HTML;
 		$googleChecked = isset($_REQUEST['useGoogle']) ? ' checked="checked"' : '';
 
 		return <<<HTML
+<div class="container theme-showcase" role="main">
 {$this->messages}
-<div class="row">
+  <div class="row">
 	<div class="col-md-12">
 		<form method="GET" class="form-horizontal" role="form" action="/search">
 		<input type="hidden" name="cmd" value="search"/>
@@ -82,10 +83,11 @@ HTML;
 			</div>
 		</div>
 	</div>
-</div>
-</form>
-<div class="row">
+  </div>
+  </form>
+  <div class="row">
 $results
+  </div>
 </div>
 HTML;
 	}
