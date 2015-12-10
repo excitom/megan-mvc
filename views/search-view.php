@@ -52,6 +52,12 @@ HTML;
 {$this->messages}
   <div class="row">
 	<div class="col-md-12">
+		<h3>Using Search Engines in Parallel</h3>
+		<p>
+		With this form you can submit a search to either Google or Bing
+		or both. If you use both, the searches are submitted in parallel
+		so that the results come back simultaneously.
+		</p>
 		<form method="GET" class="form-horizontal" role="form" action="/search">
 		<input type="hidden" name="cmd" value="search"/>
 		<div class="form-group">
@@ -61,21 +67,21 @@ HTML;
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="engines" class="col-md-2 control-label">Source: </label>
-			<div class="checkbox inline">
-			<div class="col-md-1">
-			<label>
-				<input style="margin-top: -6px" type="checkbox" class="form-control" name="useGoogle" value="1"/{$googleChecked}>
-				Google
-			</label>
+	      <label class="col-md-2 control-label">Source: </label>
+		  <div class="col-md-2">
+		    <div class="checkbox">
+			  <label for="useGoogle">
+			    <input type="checkbox" name="useGoogle" value="1"{$googleChecked}/> Google
+		      </label>
 			</div>
-			<div class="col-md-1">
-			<label>
-				<input style="margin-top: -6px" type="checkbox" class="form-control" name="useBing" value="1"/{$bingChecked}>
-				Bing
-			</label>
+		  </div>
+		  <div class="col-md-2">
+		    <div class="checkbox">
+			  <label for="useBing">
+			    <input type="checkbox" name="useBing" value="1"{$bingChecked}/> Bing
+		      </label>
 			</div>
-			</div>
+		  </div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-2">

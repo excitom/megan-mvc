@@ -51,8 +51,15 @@ HTML;
 		}
 
 		return <<<HTML
+<div class="container theme-showcase" role="main">
 {$this->messages}
-<div class="row">
+  <div class="row">
+	<div class="col-md-12">
+      <h3>Using Amazon Product Search</h3>
+      <p>Type keywords to search in Amazon's index of books.</p>
+    </div>
+  </div>
+  <div class="row">
 	<div class="col-md-12">
 		<form method="GET" class="form-horizontal" role="form" action="/products">
 		<input type="hidden" name="cmd" value="search"/>
@@ -68,6 +75,7 @@ HTML;
 			</div>
 		</div>
 	</div>
+  </div>
 </div>
 </form>
 HTML;
