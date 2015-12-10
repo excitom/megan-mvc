@@ -367,13 +367,15 @@ HTML;
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Register for this Test Community</h4>
+		<h4 id="modalMsg"></h4>
       </div>
       <div class="modal-body">
 $form
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Never Mind</button>
+        <button type="button" id="nmBtn" class="btn btn-default" data-dismiss="modal">Never Mind</button>
         <button type="button" class="btn btn-primary" id="registerBtn">Register Now</button>
+        <button type="button" class="btn btn-success" id="doneBtn" data-dismiss="modal" style="display: none;">Done!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -387,35 +389,35 @@ HTML;
 	 */
 	private function getRegisterForm() {
 		return <<<HTML
-<form>
+<form id="regForm">
   <div class="form-group">
     <label for="nickName">
 	User Name
 	<span id="nickNameErr" class="text-danger"></span>
 	</label>
-    <input type="text" class="form-control" id="nickName" placeholder="Choose a user name">
+    <input name="nickName" type="text" class="form-control" id="nickName" placeholder="Choose a user name">
   </div>
   <div class="form-group">
     <label for="email">
 	Email address
 	<span id="emailErr" class="text-danger"></span>
 	</label>
-    <input type="email" class="form-control" id="email" placeholder="Your email address">
+    <input name="email" type="email" class="form-control" id="email" placeholder="Your email address">
   </div>
   <div class="form-group">
     <label for="password">
 	Password
 	<span id="passwordErr" class="text-danger"></span>
 	</label>
-    <input type="password" class="form-control" id="password" placeholder="Choose a Password">
+    <input name="password" type="password" class="form-control" id="password" placeholder="Choose a Password">
   </div>
   <div class="form-group">
     <label for="firstName">First Name <em>(optional)</em></label>
-    <input type="text" class="form-control" id="firstName" placeholder="Your First Name">
+    <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Your First Name">
   </div>
   <div class="form-group">
     <label for="lastName">Last Name <em>(optional)</em></label>
-    <input type="text" class="form-control" id="lastName" placeholder="Your Last Name">
+    <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Your Last Name">
   </div>
   <div class="form-group">
 	<p class="help-block">Note: It's not a good idea to put passwords in a form without HTTPS but this is just a demo site and there's nothing of value to hide.</p>
@@ -435,6 +437,7 @@ $('#registerBtn').on('click', function () {
 	$('#nickNameErr').hide();
 	$('#emailErr').hide();
 	$('#passwordErr').hide();
+	$('#modalMsg').hide();
 
 	// test patterns for field validation
 	var nameReg = /^[A-Za-z][A-Za-z0-9_-]+$/;
@@ -470,6 +473,24 @@ $('#registerBtn').on('click', function () {
 		$('#passwordErr').html('Please select a password');
 		$('#passwordErr').show();
 		ok = false;
+	}
+
+	// if validation succeeded, try to register the visitor
+	if (ok) {
+		$.ajax({
+			type: "POST",
+			url: "/AjaxRegister",
+			data: $("#regForm").serialize()
+		}).done(function (data) {
+			$("#modalMsg").html('<span class="text-success">' + data + "</span>");
+			$("#modalMsg").show();
+			$("#registerBtn").hide();
+			$("#nmBtn").hide();
+			$("#doneBtn").show();
+		}).fail(function (xhr, textStatus, errorThrown) {
+			$("#modalMsg").html('<span class="text-danger">' + xhr.responseText + "</span>");
+			$("#modalMsg").show();
+		});
 	}
 });
 JAVASCRIPT;
