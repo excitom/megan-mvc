@@ -13,7 +13,7 @@ class View {
 	// keep track of which menu item is active in the nav bar
 	private $navActive = array( 'home' => '', 'about' => '', 'contact' => '', 'examples' => '' );
 
-	public function __construct( $title = "Megan's Framework", $docType = 'HTML' ) {
+	public function __construct( $title = "The Megan PHP Framework", $docType = 'HTML' ) {
 		$this->title = $title;
 		$this->docType = $docType;
 
@@ -137,7 +137,12 @@ HTML;
 	 * Generate an inline Javascript block
 	 */
 	protected function getInlineJs() {
-		return join("\n", $this->js);
+		$js = join("\n", $this->js);
+		return <<<HTML
+<script type="text/javascript">
+$js
+</script>
+HTML;
 	}
 
     /**
@@ -327,9 +332,19 @@ HTML;
 		}
 	}
 
+	/**
+	 * If we don't recognize the web page visitor (since no cookies are set)
+	 * show a button to encourage registering for the site. Clicking the button
+	 * opens a modal window containing a registration form.
+	 */
 	private function getAnonymousUser() {
+		// add the javascript for manioulating the window
+		$this->getRegisterJs();
+
+		// add the HTML for the modal window itself
 		$this->getRegisterModal();
 
+		// return the button for invoking the modal window
 		return <<<HTML
 <ul class="nav navbar-nav navbar-right">
   <li>
@@ -339,6 +354,9 @@ HTML;
 HTML;
 	}
 
+	/**
+	 * Generate the HTML for the registration modal window
+	 */
 	private function getRegisterModal() {
 		$form = $this->getRegisterForm();
 
@@ -355,7 +373,7 @@ $form
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Never Mind</button>
-        <button type="button" class="btn btn-primary">Register Now</button>
+        <button type="button" class="btn btn-primary" id="registerBtn">Register Now</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -364,35 +382,99 @@ HTML;
 		$this->addModalWindow( $html );
 	}
 
+	/**
+	 * Generate the form inside the registration modal window
+	 */
 	private function getRegisterForm() {
 		return <<<HTML
 <form>
   <div class="form-group">
-    <label for="nickName">User Name</label>
+    <label for="nickName">
+	User Name
+	<span id="nickNameErr" class="text-danger"></span>
+	</label>
     <input type="text" class="form-control" id="nickName" placeholder="Choose a user name">
   </div>
   <div class="form-group">
-    <label for="email">Email address</label>
+    <label for="email">
+	Email address
+	<span id="emailErr" class="text-danger"></span>
+	</label>
     <input type="email" class="form-control" id="email" placeholder="Your email address">
   </div>
   <div class="form-group">
-    <label for="password">Password</label>
+    <label for="password">
+	Password
+	<span id="passwordErr" class="text-danger"></span>
+	</label>
     <input type="password" class="form-control" id="password" placeholder="Choose a Password">
   </div>
   <div class="form-group">
-    <label for="firstName">First Name</label>
+    <label for="firstName">First Name <em>(optional)</em></label>
     <input type="text" class="form-control" id="firstName" placeholder="Your First Name">
   </div>
   <div class="form-group">
-    <label for="lastName">Last Name</label>
+    <label for="lastName">Last Name <em>(optional)</em></label>
     <input type="text" class="form-control" id="lastName" placeholder="Your Last Name">
   </div>
   <div class="form-group">
-    <p class="help-block">Choose a user name which you will use to login to the website.</p>
-    <p class="help-block">Give us your first and last name if you want but it's up to you..</p>
+	<p class="help-block">Note: It's not a good idea to put passwords in a form without HTTPS but this is just a demo site and there's nothing of value to hide.</p>
   </div>
 </form>
 HTML;
+	}
+
+	/**
+	 * Generate the javascript for the registration modal window
+	 */
+	private function getRegisterJs() {
+		$js =<<<JAVASCRIPT
+$('#registerBtn').on('click', function () {
+	var ok = true;
+	// default: clear error messages
+	$('#nickNameErr').hide();
+	$('#emailErr').hide();
+	$('#passwordErr').hide();
+
+	// test patterns for field validation
+	var nameReg = /^[A-Za-z][A-Za-z0-9_-]+$/;
+	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+	// form validation
+	var nickName = $('#nickName').val();
+	if (nickName == '') {
+		$('#nickNameErr').html('Please choose a nickname');
+		$('#nickNameErr').show();
+		ok = false;
+	}
+	else if (!nameReg.test(nickName)) {
+		$('#nickNameErr').html('Please use only letters or numbers and start with a letter');
+		$('#nickNameErr').show();
+		ok = false;
+	}
+
+	var email = $('#email').val();
+	if (email == '') {
+		$('#emailErr').html('Please provide your email address');
+		$('#emailErr').show();
+		ok = false;
+	}
+	else if (!emailReg.test(email)) {
+		$('#emailErr').html('Please provide a valid email address');
+		$('#emailErr').show();
+		ok = false;
+	}
+
+	var password = $('#password').val();
+	if (password == '') {
+		$('#passwordErr').html('Please select a password');
+		$('#passwordErr').show();
+		ok = false;
+	}
+});
+JAVASCRIPT;
+
+		$this->addInlineJs( $js );
 	}
 
 	private function getLoggedOutUser() {
