@@ -52,6 +52,7 @@ class AjaxLoginController extends Controller {
 	private function loginUser() {
 		$u = new UsersDb();
 		$user = $u->getUserByName( $this->nickName );
+		$user = array_pop($user);
 		if ($user === false) {
 			header($_SERVER["SERVER_PROTOCOL"]." 400 Failed");
 			print 'User name not registered';

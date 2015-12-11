@@ -353,26 +353,12 @@ HTML;
 	 * Generate the HTML for the registration modal window
 	 */
 	private function getRegisterModal() {
-		$form = $this->getRegisterForm();
+		$form = Forms::getRegisterForm();
 
 		$html =<<<HTML
 <div id="registerModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Register for this Test Community</h4>
-		<h4 id="modalMsg"></h4>
-      </div>
-      <div class="modal-body">
-$form
-      </div>
-      <div class="modal-footer">
-	    <a href="#" role="button" id="loginLink">I am already registered</a>
-        <button type="button" class="btn btn-primary" id="registerBtn">Register Now</button>
-        <button type="button" class="btn btn-success" id="doneBtn" style="display: none;">Done!</button>
-      </div>
-    </div><!-- /.modal-content -->
+ $form
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 HTML;
@@ -380,123 +366,10 @@ HTML;
 	}
 
 	/**
-	 * Generate the form inside the registration modal window
-	 */
-	private function getRegisterForm() {
-		return <<<HTML
-<form id="regForm">
-  <div class="form-group">
-    <label for="nickName">
-	User Name
-	<span id="nickNameErr" class="text-danger"></span>
-	</label>
-    <input name="nickName" type="text" class="form-control" id="nickName" placeholder="Choose a user name">
-  </div>
-  <div class="form-group">
-    <label for="email">
-	Email address
-	<span id="emailErr" class="text-danger"></span>
-	</label>
-    <input name="email" type="email" class="form-control" id="email" placeholder="Your email address">
-  </div>
-  <div class="form-group">
-    <label for="password">
-	Password
-	<span id="passwordErr" class="text-danger"></span>
-	</label>
-    <input name="password" type="password" class="form-control" id="password" placeholder="Choose a Password">
-  </div>
-  <div class="form-group">
-    <label for="firstName">First Name <em>(optional)</em></label>
-    <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Your First Name">
-  </div>
-  <div class="form-group">
-    <label for="lastName">Last Name <em>(optional)</em></label>
-    <input name="lastName" type="text" class="form-control" id="lastName" placeholder="Your Last Name">
-  </div>
-  <div class="form-group">
-	<p class="help-block">Note: It's not a good idea to put passwords in a form without HTTPS but this is just a demo site and there's nothing of value to hide.</p>
-  </div>
-</form>
-HTML;
-	}
-
-	/**
 	 * Generate the javascript for the registration modal window
 	 */
 	private function getRegisterJs() {
-		$js =<<<JAVASCRIPT
-$('#registerBtn').on('click', function () {
-	var ok = true;
-	// default: clear error messages
-	$('#nickNameErr').hide();
-	$('#emailErr').hide();
-	$('#passwordErr').hide();
-	$('#modalMsg').hide();
-
-	// test patterns for field validation
-	var nameReg = /^[A-Za-z][A-Za-z0-9_-]+$/;
-	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-
-	// form validation
-	var nickName = $('#nickName').val();
-	if (nickName == '') {
-		$('#nickNameErr').html('Please choose a nickname');
-		$('#nickNameErr').show();
-		ok = false;
-	}
-	else if (!nameReg.test(nickName)) {
-		$('#nickNameErr').html('Please use only letters or numbers and start with a letter');
-		$('#nickNameErr').show();
-		ok = false;
-	}
-
-	var email = $('#email').val();
-	if (email == '') {
-		$('#emailErr').html('Please provide your email address');
-		$('#emailErr').show();
-		ok = false;
-	}
-	else if (!emailReg.test(email)) {
-		$('#emailErr').html('Please provide a valid email address');
-		$('#emailErr').show();
-		ok = false;
-	}
-
-	var password = $('#password').val();
-	if (password == '') {
-		$('#passwordErr').html('Please select a password');
-		$('#passwordErr').show();
-		ok = false;
-	}
-
-	// if validation succeeded, try to register the visitor
-	if (ok) {
-		$.ajax({
-			type: "POST",
-			url: "/AjaxRegister",
-			data: $("#regForm").serialize()
-		}).done(function (data) {
-			$("#modalMsg").html('<span class="text-success">' + data + "</span>");
-			$("#modalMsg").show();
-			$("#registerBtn").hide();
-			$("#loginLink").hide();
-			$("#regForm").hide();
-			$("#doneBtn").show();
-		}).fail(function (xhr, textStatus, errorThrown) {
-			$("#modalMsg").html('<span class="text-danger">' + xhr.responseText + "</span>");
-			$("#modalMsg").show();
-		});
-	}
-});
-$('#doneBtn').on('click', function () {
-	location.reload();
-});
-$('#loginLink').on('click', function () {
-	window.location = '/login';
-});
-JAVASCRIPT;
-
+		$js = Forms::getRegisterJs();
 		$this->addInlineJs( $js );
 	}
 
