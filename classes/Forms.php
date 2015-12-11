@@ -63,12 +63,7 @@ JAVASCRIPT;
 	 */
 	public static function getRegisterForm() {
 		return <<<HTML
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Register for this Test Community</h4>
-		<h4 id="modalMsg"></h4>
-      </div>
+	  <h4 id="modalMsg"></h4>
       <div class="modal-body">
         <form id="regForm">
           <div class="form-group">
@@ -107,7 +102,6 @@ JAVASCRIPT;
         <button type="button" class="btn btn-primary" id="registerBtn">Register Now</button>
         <button type="button" class="btn btn-success" id="doneBtn" style="display: none;">Done!</button>
       </div>
-    </div><!-- /.modal-content -->
 HTML;
 
 	}
@@ -116,7 +110,7 @@ HTML;
 	 * Generate the javascript for the registration modal window
 	 */
 	public static function getRegisterJs() {
-		$js =<<<JAVASCRIPT
+		return <<<JAVASCRIPT
 $('#registerBtn').on('click', function () {
 	var ok = true;
 	// default: clear error messages

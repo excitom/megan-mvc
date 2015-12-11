@@ -15,9 +15,7 @@ class ContactView extends View {
   <div class="jumbotron">
 	<h2>Contact Me</h2>
 	<p>
-	This is a demonstration framework that I built.
-	The PHP code is my own. 
-	The CSS is the Twitter Bootstrap theme with minimal customization
+	To Do: put in a contact form
 	</p>
   </div>
 </div>
