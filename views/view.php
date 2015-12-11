@@ -52,7 +52,9 @@ CSS;
 			$domain = '.'.$d1.'.'.$d2;
 			// create a unique string
 			$uid = md5($_SERVER['REMOTE_ADDR'].$_SERVER['REQUEST_TIME']);
-			setcookie( 'u', $uid, 0, '/', $domain);
+			// expire 6 months in the future
+			$expires = time()+60*60*24*30*6;
+			setcookie( 'u', $uid, $expires, '/', $domain);
 		}
 	}
 

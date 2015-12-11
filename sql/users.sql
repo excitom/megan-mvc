@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users
 	password VARCHAR(255) NOT NULL,
 	firstName VARCHAR(255),
 	lastName VARCHAR(255),
-	uid CHAR(16),
+	uid VARCHAR(255),
 	PRIMARY KEY (id),
 	UNIQUE KEY (nickName),
 	UNIQUE KEY (email)

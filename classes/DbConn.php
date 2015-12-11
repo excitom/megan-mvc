@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Implement a singleton class so that a database connection
  * is shared among all code that uses it in a single web page.
@@ -15,7 +16,7 @@ class DbConn {
 
 	public static function getConnection() {
 		if (self::$dbh === null) {
-			self::$dbh = new PDO( 'mysql:host='.$_SERVER['DB_HOST'].';dbname='.$_SERVER['DB_DEFAULT'].';charset=utf8', $_SERVER['DB_USER'], $_SERVER['DB_PASSWORD']);
+			self::$dbh = new \PDO( 'mysql:host='.$_SERVER['DB_HOST'].';dbname='.$_SERVER['DB_DEFAULT'].';charset=utf8', $_SERVER['DB_USER'], $_SERVER['DB_PASSWORD']);
 		}
 		return self::$dbh;
 	}

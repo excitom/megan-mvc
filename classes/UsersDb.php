@@ -24,8 +24,22 @@ SQL;
 		$q->bindValue( ':firstName', $firstName, PDO::PARAM_STR );
 		$q->bindValue( ':lastName', $lastName, PDO::PARAM_STR );
 		$q->bindValue( ':uid', $uid, PDO::PARAM_STR );
-		$res = $q->execute();
-		return $res;
+
+		// Note: Use a transaction to prevent a race condition
+		// between inserting a row and asking the DB for the
+		// last inserted Id.
+		$id = false;
+		try {
+			$this->dbh->beginTransaction(); 
+			$q->execute();
+			$id = $this->dbh->lastInsertId();
+			$this->dbh->commit();
+		} catch(PDOException $e) {
+			$this->dbh->rollback();
+			error_log("UserDb error: ".$e->getMessage());
+		}
+				
+		return $id;
 	}
 
 	public function getUserById( $id ) {
@@ -47,7 +61,11 @@ SQL;
 		$res = $q->execute();
 		if ($res) {
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
-			return $rows;
+			if (count($rows)) {
+				return $rows;
+			} else {
+				return false;
+			}
 		} else {
 			return $res;
 		}
