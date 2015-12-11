@@ -42,18 +42,11 @@ CSS;
 	 */
 	private function setTrackingCookie() {
 		if (!isset($_COOKIE['u'])) {
-			// split the domain name apart
-			$d = explode('.', $_SERVER['SERVER_NAME']);
-			// get the last piece
-			$d2 = array_pop($d);
-			// get the second to last piece
-			$d1 = array_pop($d);
-			// get the base domain name (regardless of how many parts it has)
-			$domain = '.'.$d1.'.'.$d2;
 			// create a unique string
 			$uid = md5($_SERVER['REMOTE_ADDR'].$_SERVER['REQUEST_TIME']);
 			// expire 6 months in the future
 			$expires = time()+60*60*24*30*6;
+			$domain = Cookies::getThisDomainName();
 			setcookie( 'u', $uid, $expires, '/', $domain);
 		}
 	}
@@ -375,9 +368,9 @@ HTML;
 $form
       </div>
       <div class="modal-footer">
-        <button type="button" id="nmBtn" class="btn btn-default" data-dismiss="modal">Never Mind</button>
+	    <a href="#" role="button" id="loginLink">I am already registered</a>
         <button type="button" class="btn btn-primary" id="registerBtn">Register Now</button>
-        <button type="button" class="btn btn-success" id="doneBtn" data-dismiss="modal" style="display: none;">Done!</button>
+        <button type="button" class="btn btn-success" id="doneBtn" style="display: none;">Done!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -487,7 +480,8 @@ $('#registerBtn').on('click', function () {
 			$("#modalMsg").html('<span class="text-success">' + data + "</span>");
 			$("#modalMsg").show();
 			$("#registerBtn").hide();
-			$("#nmBtn").hide();
+			$("#loginLink").hide();
+			$("#regForm").hide();
 			$("#doneBtn").show();
 		}).fail(function (xhr, textStatus, errorThrown) {
 			$("#modalMsg").html('<span class="text-danger">' + xhr.responseText + "</span>");
@@ -495,17 +489,91 @@ $('#registerBtn').on('click', function () {
 		});
 	}
 });
+$('#doneBtn').on('click', function () {
+	location.reload();
+});
+$('#loginLink').on('click', function () {
+	window.location = '/login';
+});
 JAVASCRIPT;
 
 		$this->addInlineJs( $js );
 	}
 
 	private function getLoggedOutUser() {
-		return '';
+		// add the javascript for manioulating the window
+		$this->getLoginJs();
+
+		// add the HTML for the modal window itself
+		$this->getLoginModal();
+		return <<<HTML
+<ul class="nav navbar-nav navbar-right">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome back {$_COOKIE['n']} <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li>
+	  	<a href="#" role="button" data-toggle="modal" data-target="#loginModal">Sign In</a>
+   	  </li>
+    </ul>
+  </li>
+</ul>
+HTML;
 	}
 
+	/**
+	 * Generate the javascript for the login modal window
+	 */
+	private function getLoginJs() {
+		$js =<<<JAVASCRIPT
+$('#loginBtn').on('click', function () {
+});
+JAVASCRIPT;
+
+		$this->addInlineJs($js);
+	}
+
+	/**
+	 * Generate the HTML for the login modal window
+	 */
+	private function getLoginModal() {
+
+		$nickName = htmlentities($_COOKIE['n']);
+		$loginForm = Forms::getLoginForm( $nickName );
+
+		$html =<<<HTML
+<div id="loginModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Sign In to this Test Community</h4>
+		<h4 id="modalMsg"></h4>
+      </div>
+      <div class="modal-body">
+$loginForm
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+HTML;
+		$this->addModalWindow( $html );
+	}
+
+	/**
+	 * There is a session cookie so a user is logged in
+	 */
 	private function getLoggedInUser() {
-		return '';
+		return <<<HTML
+<ul class="nav navbar-nav navbar-right">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome {$_COOKIE['n']} <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="/myaccount">My Account</a></li>
+      <li><a href="/logout">Sign Out</a></li>
+    </ul>
+  </li>
+</ul>
+HTML;
 	}
 
 	/**

@@ -20,7 +20,7 @@ class AjaxRegisterController extends Controller {
 	public function run() {
 		if ($this->validInput()) {
 			if ($this->addUser()) {
-				$this->setCookies();
+				Cookies::setLoginCookies($this->nickName, $this->id, $this->firstName, $this->lastName);
 				print 'Success!';
 			}
 		}
@@ -106,44 +106,12 @@ class AjaxRegisterController extends Controller {
 		// simultaneously try to register the name name or email, but if
 		// that happens the only result is a less specific error message
 		// for the loser.
-		$this->id = $u->addUser( $this->nickName, $this->email, $this->password, $this->firstName, $this->lastName, $this->uid );
+		$this->id = $u->addUser( $this->nickName, $this->password, $this->email, $this->firstName, $this->lastName, $this->uid );
 		if ($this->id === false) {
 			header($_SERVER["SERVER_PROTOCOL"]." 400 Failed");
 			print 'Registration failed';
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Set a session cookie 's' to indicate a logged in session.
-	 * Set a name cookie 'n' containing the user's name.
-	 */
-	private function setCookies() {
-
-		// The session cookie is an encrypted string containing
-		// the unique user string, the user id key (from the DB),
-		// and a timestamp
-		$str = $this->uid .':'. $this->id .':'. time();
-		$str = Crypto::encrypt( $str, $_SERVER['ENCRYPTION_KEY']);
-
-		// split the domain name apart
-		$d = explode('.', $_SERVER['SERVER_NAME']);
-		// get the last piece
-		$d2 = array_pop($d);
-		// get the second to last piece
-		$d1 = array_pop($d);
-		// get the base domain name (regardless of how many parts it has)
-		$domain = '.'.$d1.'.'.$d2;
-
-		setcookie( 's', $str, 0, '/', $domain);
-
-		// if the user gave us a first name, use that for the name 
-		// cookie. else use the nickname.
-		$nm = (empty($this->firstName)) ? $this->nickName : $this->firstName;
-
-		// expire 6 months in the future
-		$expires = time()+60*60*24*30*6;
-		setcookie( 'n', $nm, $expires, '/', $domain);
 	}
 }
