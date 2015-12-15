@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS log
+(
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	keyword VARCHAR(30) NOT NULL,
+	message VARCHAR(255) NOT NULL,
+	userid INTEGER,
+	createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	KEY (keyword),
+	KEY (userid),
+	KEY (createdDate)
+) ENGINE=InnoDb;

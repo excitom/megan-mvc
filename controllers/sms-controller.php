@@ -7,7 +7,7 @@ class SmsController extends LoggedInController {
 			$tw = new TwilioSms();
 			$number =preg_replace('/[^0-9]/', '', $_REQUEST['number']);
 			$tw->addNumber($number);
-			#$tw->send(htmlentities($_REQUEST['message']));
+			$tw->send(htmlentities($_REQUEST['message']), $this->userid);
 			$v->setMsg('Message sent to '.htmlentities($_REQUEST['number']));
 		}
 		$v->run();

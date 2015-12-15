@@ -25,14 +25,16 @@ class TwilioSms {
 	/**
 	 * Send an SMS message
 	 */
-	public function send( $message ) {
+	public function send( $message, $who ) {
 		$message = htmlentities($message);
+		$log = new LogDb;
 		foreach( $this->toNumbers as $number ) {
 			$sms = $this->twilio->account->messages->sendMessage(
 						$this->fromNumber,
 						$number,
 						$message
 					);
+			$log->add( 'SMS', $number .':'.$message, $who );
 		}
 	}
 }

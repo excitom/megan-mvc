@@ -62,6 +62,7 @@ JAVASCRIPT;
 	 * Generate the form inside the registration modal window
 	 */
 	public static function getRegisterForm() {
+
 		return <<<HTML
 	  <h4 id="modalMsg"></h4>
       <div class="modal-body">
@@ -109,7 +110,14 @@ HTML;
 	/**
 	 * Generate the javascript for the registration modal window
 	 */
-	public static function getRegisterJs() {
+	public static function getRegisterJs( $returnUrl = null ) {
+
+		if ($returnUrl === null) {
+			$doneAction = 'location.reload();';
+		} else {
+			$doneAction = "window.location = '$returnUrl'";
+		}
+	
 		return <<<JAVASCRIPT
 $('#registerBtn').on('click', function () {
 	var ok = true;
@@ -175,7 +183,7 @@ $('#registerBtn').on('click', function () {
 	}
 });
 $('#doneBtn').on('click', function () {
-	location.reload();
+	$doneAction
 });
 $('#loginLink').on('click', function () {
 	window.location = '/login';

@@ -24,7 +24,7 @@ HTML;
 	protected function getMainSection() {
 
 		$form = Forms::getRegisterForm();
-		$js = Forms::getRegisterJs();
+		$js = Forms::getRegisterJs( '/' );
 		$this->addInlineJs($js);
 
 		return <<<HTML
