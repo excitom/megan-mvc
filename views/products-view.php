@@ -86,7 +86,9 @@ HTML;
 	 */
 	private function showSearchResults( $results ) {
 		$results = $this->decodeResults( $results );
-		if (!isset($results['Items']['Item']) || empty($results['Items']['Item'])) {
+		if (!isset($results['Items']['Item']) ||
+			 empty($results['Items']['Item']))
+		{
 			return <<<HTML
 <div class="row">
   <div class="col-md-offset-1 col-md-10">
@@ -97,6 +99,9 @@ HTML;
 		} else {
 			$rows = array();
 			foreach( $results['Items']['Item'] as $item ) {
+			 	if (empty($item['ItemAttributes']['ISBN'])) {
+					continue; // skip ebooks
+				}
 				$author = $this->getAuthor( $item['ItemAttributes']['Author'] );
 				$price = $this->getPrice( $item['OfferSummary'] );
 				$rows[] =<<<HTML
@@ -127,7 +132,11 @@ HTML;
 	}
 
 	private function getPrice( $price ) {
-		return $price['LowestNewPrice']['FormattedPrice'];
+		if (empty($price['LowestNewPrice']['FormattedPrice'])) {
+			return 'not available';
+		} else {
+			return $price['LowestNewPrice']['FormattedPrice'];
+		}
 	}
 
 	/**
