@@ -43,13 +43,13 @@ HTML;
   <div class="row">
 	<form method="POST" class="form-horizontal" role="form" action="/sms">
 	<div class="form-group">
-		<label for="keywords" class="col-md-2 control-label">Send to: </label>
+		<label for="number" class="col-md-2 control-label">Send to: </label>
 		<div class="col-md-8">
 			<input type="text" class="form-control" name="number" placeholder="Enter an SMS-capable phone number" value="$number"/>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keywords" class="col-md-2 control-label">Message: </label>
+		<label for="message" class="col-md-2 control-label">Message: </label>
 		<div class="col-md-8">
 			<input type="text" class="form-control" name="message" placeholder="Enter up to 140 characters" value="$message"/>
 		</div>
