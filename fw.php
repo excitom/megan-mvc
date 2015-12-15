@@ -12,6 +12,9 @@ spl_autoload_register(function ($class) {
 		case 'Controller':
 			require_once $_SERVER['FW_ROOT'] . '/controllers/controller.php';
 			break;
+		case 'LoggedInController':
+			require_once $_SERVER['FW_ROOT'] . '/controllers/loggedin-controller.php';
+			break;
 		case 'Model':
 			require_once $_SERVER['FW_ROOT'] . '/models/model.php';
 			break;

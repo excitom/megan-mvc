@@ -44,4 +44,17 @@ class Cookies {
 		setcookie( 'f', $nm, $expires, '/', $domain);
 		setcookie( 'n', $nickName, $expires, '/', $domain);
 	}
+
+	/**
+	 * Check if a user is logged in
+	 */
+	public static function isLoggedIn() {
+		if (empty($_COOKIE['s'])) {
+			return false;
+		} else {
+			$str = Crypto::decrypt( $_COOKIE['s'], $_SERVER['ENCRYPTION_KEY']);
+			$fields = explode(':', $str);
+			return $fields[1];	// return the userid
+		}
+	}
 }
