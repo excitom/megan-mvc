@@ -298,6 +298,7 @@ HTML;
     <ul class="dropdown-menu">
       <li><a href="/search">Search using Google and Bing</a></li>
       <li><a href="/products">Search using Amazon</a></li>
+      <li><a href="/sms">Send an SMS message using Twilio</a></li>
     </ul>
   </li>
 </ul> <!-- navbar-nav -->
