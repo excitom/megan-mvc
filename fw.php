@@ -5,6 +5,11 @@
 date_default_timezone_set('America/Los_Angeles');
 
 /*
+ * enable sessions (configured to use memcache/elasticache)
+ */
+session_start();
+
+/*
  * Autoload function
  */
 spl_autoload_register(function ($class) {
