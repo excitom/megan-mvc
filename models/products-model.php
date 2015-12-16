@@ -21,7 +21,7 @@ class ProductsModel extends Model {
 	}
 
 	private function setupUrl( $keywords ) {
-		$keywords = urlencode($keywords);
+		$keywords = str_replace('+', '%20', $keywords);
 		$params = array(
     		"Service" => "AWSECommerceService",
     		"Operation" => "ItemSearch",

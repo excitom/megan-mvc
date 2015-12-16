@@ -1,6 +1,9 @@
 <?php
 class Controller {
-	public function __construct() {
+	protected $parameters;
+
+	public function __construct( $parameters = null) {
+		$this->parameters = $parameters;
 	}
 
 	public function run() {

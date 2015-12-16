@@ -99,20 +99,30 @@ HTML;
 		} else {
 			$rows = array();
 			foreach( $results['Items']['Item'] as $item ) {
-			 	if (empty($item['ItemAttributes']['ISBN'])) {
-					continue; // skip ebooks
+				if (!empty($item['ItemAttributes']['ISBN'])) {
+					$isbn = $item['ItemAttributes']['ISBN'];
+					$url = "/isbn/$isbn";
 				}
+				elseif (!empty($item['ItemAttributes']['EISBN'])) {
+					$isbn = $item['ItemAttributes']['EISBN'];
+					$url = "/eisbn/$isbn";
+				}
+				else {
+					continue;
+				}
+
 				$author = $this->getAuthor( $item['ItemAttributes']['Author'] );
-				$price = $this->getPrice( $item['OfferSummary'] );
+				$price = $this->getPrice( $item );
+				$listPrice = $this->getListPrice( $item['ItemAttributes'] );
 				$rows[] =<<<HTML
 <div class="row">
   <div class="col-md-offset-1 col-md-1">
-  	<img src="{$item['SmallImage']['URL']}" width={$item['SmallImage']['URL']} height={$item['SmallImage']['Height']} width="{$item['SmallImage']['Width']}" alt="{$item['ItemAttributes']['ISBN']}" />
+  	<img src="{$item['SmallImage']['URL']}" width={$item['SmallImage']['URL']} height={$item['SmallImage']['Height']} width="{$item['SmallImage']['Width']}" alt="$isbn" />
   </div>
   <div class="col-md-10">
-    <h3><a href="/isbn/{$item['ItemAttributes']['ISBN']}">{$item['ItemAttributes']['Title']}</a></h3>
+    <h3><a href="$url">{$item['ItemAttributes']['Title']}</a></h3>
 	<p>Author: <strong>$author</strong><p>
-	<p>List Price: <strong>{$item['ItemAttributes']['ListPrice']['FormattedPrice']}</strong><p>
+	<p>List Price: <strong>$listPrice</strong><p>
 	<p>Buy as low as: <strong>$price</strong></p>
   </div>
  </div>
@@ -131,11 +141,19 @@ HTML;
 		}
 	}
 
-	private function getPrice( $price ) {
-		if (empty($price['LowestNewPrice']['FormattedPrice'])) {
+	private function getListPrice( $price ) {
+		if (empty($price['ListPrice']['FormattedPrice'])) {
 			return 'not available';
 		} else {
-			return $price['LowestNewPrice']['FormattedPrice'];
+			return $price['ListPrice']['FormattedPrice'];
+		}
+	}
+
+	private function getPrice( $price ) {
+		if (empty($price['OfferSummary']['LowestNewPrice']['FormattedPrice'])) {
+			return 'not available';
+		} else {
+			return $price['OfferSummary']['LowestNewPrice']['FormattedPrice'];
 		}
 	}
 

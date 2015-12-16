@@ -42,8 +42,8 @@ spl_autoload_register(function ($class) {
  */
 $class = strtolower($_SERVER['REQUEST_URI']);	// upper/lowercase doesn't matter
 $class = preg_replace('/\?.*$/', '', $class);	// remove query string, if any
-$class = str_replace('php', '', $class);	// remove the .php, if any
-$class = preg_replace('/[^\da-z\/_-]/i', '', $class);	// remove extraneous characters
+$class = str_replace('.php', '', $class);	// remove the .php, if any
+#$class = preg_replace('/[^\da-z\/_-]/i', '', $class);	// remove extraneous characters
 if ($class == '/') {
 	$class = '/index';	// special case
 }

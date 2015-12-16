@@ -6,24 +6,17 @@
  * input search string is turned into an SEO friendly URL.
  */
 class ProductsController extends Controller {
-	private $parameters = '';
 	private $messages = array();
 
-	public function __construct( $parameters ) {
-		// parse the query string to find search keywords
-		// and also the choice of search engine(s)
-		if (isset($_GET['keywords'])) {
-			$this->parameters = $_GET['keywords'];
-		}
+	public function __construct( $parameters = null ) {
 
-		// keywords may also be passed in as part of the URL
-		if (!empty($parameters)) {
-			if (!empty($this->parameters)) {
-				$this->parameters = $parameters . ' ' . $this->parameters;
-			} else {
-				$this->parameters = $parameters;
-			}
+		// parse the query string to find search keywords
+		// and redirect to an SEO-friendly URL with the keywords
+		if (isset($_GET['keywords'])) {
+			header('Location: /products/'.urlencode($_GET['keywords']));
+			exit;
 		}
+		parent::__construct($parameters);
 	}
 
 	public function run( $results = '' ) {
