@@ -5,7 +5,7 @@
  * Search Model).
  */
 class SearchController extends Controller {
-	private $parameters = '';
+	protected $parameters = '';
 	private $engines = array();
 	private $messages = array();
 
