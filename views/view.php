@@ -299,6 +299,7 @@ HTML;
       <li><a href="/search">Search using Google and Bing</a></li>
       <li><a href="/products">Search using Amazon</a></li>
       <li><a href="/sms">Send an SMS message using Twilio</a></li>
+      <li><a href="/map">Display a street address on a Googe Map</a></li>
     </ul>
   </li>
 </ul> <!-- navbar-nav -->
