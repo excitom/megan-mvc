@@ -28,8 +28,8 @@ class SmsView extends View {
 HTML;
 		}
 
-		$number = htmlentities($_REQUEST['number']);
-		$message = htmlentities($_REQUEST['message']);
+		$number = isset($_REQUEST['number']) ? htmlentities($_REQUEST['number']) : '';
+		$message = isset($_REQUEST['message']) ? htmlentities($_REQUEST['message']) : '';
 
 		return <<<HTML
 <div class="container theme-showcase" role="main">
