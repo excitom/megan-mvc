@@ -56,7 +56,7 @@ HTML;
 	</div>
 	<div class="form-group">
 		<div class="col-md-offset-2 col-md-2">
-			<button type="submit" class="btn btn-primary">Search</button>
+			<button type="submit" class="btn btn-primary">Send</button>
 		</div>
 	</div>
     </form>
