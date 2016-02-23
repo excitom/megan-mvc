@@ -29,6 +29,7 @@ class View {
 		$css =<<<CSS
 .footertext { text-align: center; }
 .footerpad { padding-top: 50px; }
+.navbar-brand {margin-top: -8px; }
 CSS;
 		$this->addCss($css);
 
