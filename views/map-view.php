@@ -139,7 +139,6 @@ JAVASCRIPT;
   <div class="col-md-12">
     <!-- google map will be shown here -->
     <div id="gmap_canvas">Loading map...</div>
-    <div id='map-label'>Map shows approximate location.</div>
   </div>
 </div>
 HTML;

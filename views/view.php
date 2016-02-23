@@ -57,13 +57,11 @@ CSS;
 	public function run( $mainSection = ''  ) {
 		$head = $this->getHeadSection();
 		$body = $this->getBodySection( $mainSection );
-		$js = $this->getInlineJs();
 		print <<<HTML
 <!DOCTYPE {$this->docType}>
 <html>
 $head
 $body
-$js
 </html>
 HTML;
 	}
@@ -215,6 +213,7 @@ HTML;
 		$mainSection = $this->getMainSection( $mainSection );
 		$footer = $this->getFooter();
 		$modalWindows = $this->getModalWindows();
+		$js = $this->getInlineJs();
 
 		return <<<HTML
 <body role="document">
@@ -222,6 +221,7 @@ $topMargin
 $mainSection
 $footer
 $modalWindows
+$js
 </body>
 HTML;
 	}
