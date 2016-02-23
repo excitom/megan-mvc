@@ -300,6 +300,7 @@ HTML;
       <li><a href="/products">Search using Amazon</a></li>
       <li><a href="/sms">Send an SMS message using Twilio</a></li>
       <li><a href="/map">Display a street address on a Googe Map</a></li>
+      <li><a href="/scroll">Demonstrate Infinite Scrolling</a></li>
     </ul>
   </li>
 </ul> <!-- navbar-nav -->
