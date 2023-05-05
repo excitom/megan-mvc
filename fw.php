@@ -4,6 +4,8 @@
  */
 date_default_timezone_set('America/Los_Angeles');
 
+require_once ".secrets.php";
+
 /*
  * enable sessions (configured to use memcache/elasticache)
  */
