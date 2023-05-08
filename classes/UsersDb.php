@@ -12,10 +12,11 @@
 class UsersDb extends Db {
 
 	public function addUser( $nickName, $password, $email, $firstName = null, $lastName = null, $uid = null ) {
+		$createdDate = date('Y-m-d H:i:s');
 		$sql =<<<SQL
 INSERT INTO users
-	( nickName, password, email, firstName, lastName, uid )
-	VALUES( :nickName, :password, :email, :firstName, :lastName, :uid )
+	( nickName, password, email, firstName, lastName, uid, createdDate )
+	VALUES( :nickName, :password, :email, :firstName, :lastName, :uid, :createdDate )
 SQL;
 		$q = $this->dbh->prepare($sql);
 		$q->bindValue( ':nickName', $nickName, PDO::PARAM_STR );
@@ -24,6 +25,7 @@ SQL;
 		$q->bindValue( ':firstName', $firstName, PDO::PARAM_STR );
 		$q->bindValue( ':lastName', $lastName, PDO::PARAM_STR );
 		$q->bindValue( ':uid', $uid, PDO::PARAM_STR );
+		$q->bindValue( ':createdDate', $createdDate, PDO::PARAM_STR );
 
 		// Note: Use a transaction to prevent a race condition
 		// between inserting a row and asking the DB for the
