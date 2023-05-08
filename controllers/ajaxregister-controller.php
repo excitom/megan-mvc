@@ -100,7 +100,7 @@ class AjaxRegisterController extends Controller {
 		}
 
 		// One-way encrypt the password
-		$this->password = crypt( $this->password, $_SERVER['ENCRYPTION_KEY']);
+		$this->password = password_hash( $this->password, PASSWORD_DEFAULT);
 
 		// Note: There is a very small race condition if two people
 		// simultaneously try to register the name name or email, but if

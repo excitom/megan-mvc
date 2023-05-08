@@ -12,11 +12,13 @@ class RegisterView extends View {
 	protected function getBodySection() {
 		$mainSection = $this->getMainSection();
 		$footer = $this->getFooter();
+		$js = $this->getInlineJs();
 
 		return <<<HTML
 <body role="document">
 $mainSection
 $footer
+$js
 </body>
 HTML;
 	}
