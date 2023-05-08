@@ -22,7 +22,7 @@ class Cookies {
 		// the user name, the user id key (from the DB),
 		// and a timestamp
 		$str = $nickName .':'. $id .':'. time();
-		$str = Crypto::encrypt( $str, $_SERVER['ENCRYPTION_KEY']);
+		$str = Crypto::encrypt( $str);
 
 		// split the domain name apart
 		$d = explode('.', $_SERVER['SERVER_NAME']);
