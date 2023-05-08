@@ -407,12 +407,7 @@ HTML;
 	 * Generate the javascript for the login modal window
 	 */
 	private function getLoginJs() {
-		$js =<<<JAVASCRIPT
-$('#loginBtn').on('click', function () {
-});
-JAVASCRIPT;
-
-		$this->addInlineJs($js);
+		$this->addInlineJs(Forms::getLoginFormJs());
 	}
 
 	/**
