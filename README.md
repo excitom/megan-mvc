@@ -4,7 +4,10 @@ A simple MVC framework for building web pages, implemented in PHP.
 I have started developing it in 2015 to collect a variety of best practices
 that I developed over a decade or so of PHP development. I picked it up again
 recently to refresh my skills.
-# Features
+# Framework
+- The project is completely self-contained and does not rely on
+any framework (Laravel, Zend, Symfony, Cake, etc.). Why write it all
+from scratch? It's more fun and you learn more that way!
 - There is only a single `php` file in the `doc root`, it is `index.php`, 
 and this file only contains a few lines that invoke the framework (`fw.php`) which is located outside the document root for better isolation.
 - The framework relies on the NGINX `try_files` directive to send all URIs
@@ -32,3 +35,10 @@ the need for explicit `require` or `include` statements.
 For example the `View` class does most of the work for generating a web 
 page. Pages like the `/login` page are implemented by the `LoginView` class
 which extends `View`.
+# Database
+- The framework supports CRUD database operations. Originally it
+used `mysql` but I recently switched to `mariadb` with few changes.
+- There is a singleton `DbConn` class that allows multiple classes
+within a page to share a common DB connection.
+# Presentation
+- The front end code is built upon [Bootstrap](https://getbootstrap.com/docs/3.4/css/) for CSS/presentation and [JQuery](https://jquery.com/) for javascript/interactivity. In this day and age modern front end projects tend to be build on a javascript framework such as `Angular` or `React` but I find these are overkill for a relatively simple set of web pages.
