@@ -59,10 +59,9 @@ class AjaxLoginController extends Controller {
 			return false;
 		}
 
-		// One-way encrypt the password
-		$this->password = crypt( $this->password, $_SERVER['ENCRYPTION_KEY']);
+		$pwdPeppered = hash_hmac("sha256", $this->password, $_SERVER['PEPPER']);
+		if (password_verify($pwdPeppered, $user['password']) === false) {
 
-		if ($this->password != $user['password']) {
 			header($_SERVER["SERVER_PROTOCOL"]." 400 Failed");
 			print 'Login failed';
 			return false;

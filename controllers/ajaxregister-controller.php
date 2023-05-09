@@ -99,8 +99,9 @@ class AjaxRegisterController extends Controller {
 			return false;
 		}
 
-		// One-way encrypt the password
-		$this->password = password_hash( $this->password, PASSWORD_DEFAULT);
+		// One-way hash the password
+		$pwdPeppered = hash_hmac("sha256", $this->password, $_SERVER['PEPPER']);
+		$this->password = password_hash($pwdPeppered, PASSWORD_DEFAULT);
 
 		// Note: There is a very small race condition if two people
 		// simultaneously try to register the name name or email, but if
