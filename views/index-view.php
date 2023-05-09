@@ -16,6 +16,8 @@ class IndexView extends View {
 	<h1>Megan PHP Framework</h1>
 	<p>
 	This is a demonstration framework that I built.
+    More documentation and the entire source code may be found on
+	<a href="https://github.com/excitom/megan-mvc">github</a>.
 	Check the Examples menu above for various demonstrations.
 	The PHP code is my own, as is the javascript (mostly jquery). 
 	The CSS is the Twitter Bootstrap theme with minimal customization
