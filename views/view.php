@@ -22,8 +22,8 @@ class View {
 		$this->addCssLink($this->cdnUrl.'/css/bootstrap-theme.min.css');
 
 		// global javascript
-		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
-		$this->addScriptLink("//ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js");
+		$this->addScriptLink("//code.jquery.com/jquery-2.2.4.min.js");
+		$this->addScriptLink("//code.jquery.com/ui/1.13.2/jquery-ui.min.js");
 		$this->addScriptLink($this->cdnUrl.'/js/bootstrap.min.js');
 
 		$css =<<<CSS
@@ -384,7 +384,7 @@ HTML;
 	}
 
 	private function getLoggedOutUser() {
-		// add the javascript for manioulating the window
+		// add the javascript for manipulating the window
 		$this->getLoginJs();
 
 		// add the HTML for the modal window itself
@@ -396,6 +396,7 @@ HTML;
     <ul class="dropdown-menu">
       <li>
 	  	<a href="#" role="button" data-toggle="modal" data-target="#loginModal">Sign In</a>
+	  	<a id="switch-user" href="#" role="button">Switch Users</a>
    	  </li>
     </ul>
   </li>
