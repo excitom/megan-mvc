@@ -52,7 +52,7 @@ class Cookies {
 		if (empty($_COOKIE['s'])) {
 			return false;
 		} else {
-			$str = Crypto::decrypt( $_COOKIE['s'], $_SERVER['ENCRYPTION_KEY']);
+			$str = Crypto::decrypt( $_COOKIE['s']);
 			$fields = explode(':', $str);
 			return $fields[1];	// return the userid
 		}

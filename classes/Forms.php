@@ -21,6 +21,9 @@ HTML;
 
 	public static function getLoginFormJs() {
 		return <<<JAVASCRIPT
+$('#switch-user').on('click', function () {
+	window.location = '/clear';
+});
 $('#loginBtn').on('click', function () {
 	$('#errorMsg').hide();
 
