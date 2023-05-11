@@ -5,9 +5,6 @@
 date_default_timezone_set('America/Los_Angeles');
 
 require_once ".secrets.php";
-$_SERVER['ENCRYPTION_KEY_1'] = base64_encode(openssl_random_pseudo_bytes(32));
-$_SERVER['ENCRYPTION_KEY_2'] = base64_encode(openssl_random_pseudo_bytes(64));
-$_SERVER['CIPHER'] = "aes-128-gcm";
 
 /*
  * enable sessions (configured to use memcache/elasticache)

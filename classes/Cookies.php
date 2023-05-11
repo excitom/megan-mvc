@@ -57,4 +57,17 @@ class Cookies {
 			return $fields[1];	// return the userid
 		}
 	}
+
+	/**
+	 * Get information about the logged in user
+	 */
+	public static function getUserInfo() {
+		if (empty($_COOKIE['s'])) {
+			return false;
+		} else {
+			$str = Crypto::decrypt( $_COOKIE['s']);
+			$fields = explode(':', $str);
+			return $fields;	
+		}
+	}
 }

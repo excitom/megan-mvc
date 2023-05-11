@@ -20,13 +20,13 @@ class Crypto {
 	public static function decrypt($data) {
 		$firstKey = base64_decode($_SERVER['ENCRYPTION_KEY_1']);
 		$secondKey = base64_decode($_SERVER['ENCRYPTION_KEY_2']);
-		$mix = base64_decode($input);
+		$mix = base64_decode($data);
 		$method = $_SERVER['CIPHER'];
 		$ivLength = openssl_cipher_iv_length($method);
 		$iv = substr($mix, 0, $ivLength);
 		$secondEncrypted = substr($mix, $ivLength, 64);
 		$firstEncrypted = substr($mix, $ivLength+64);
-		$data = openssl_decrypt($firstEncrypted, $methood, $firstKey, OPENSSL_RAW_DATA, $iv);
+		$data = openssl_decrypt($firstEncrypted, $method, $firstKey, OPENSSL_RAW_DATA, $iv);
 		$secondEncryptedNew = hash_hmac('sha3-512', $firstEncrypted, $secondKey, TRUE);
 		if (hash_equals($secondEncrypted, $secondEncryptedNew)) {
 			return $data;
