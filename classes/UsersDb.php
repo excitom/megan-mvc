@@ -73,4 +73,16 @@ SQL;
 		}
 	}
 
+	public function updateUserByName( $nickName, $password, $email, $firstName, $lastName, $uid ) {
+		$sql =<<<SQL
+UPDATE users SET email = :email, firstName = :firstName, lastName = :lastName
+	WHERE nickName = :nickName
+SQL;
+		$q = $this->dbh->prepare($sql);
+		$q->bindValue( ':nickName', $nickName, PDO::PARAM_STR );
+		$q->bindValue( ':email', $email, PDO::PARAM_STR );
+		$q->bindValue( ':firstName', $firstName, PDO::PARAM_STR );
+		$q->bindValue( ':lastName', $lastName, PDO::PARAM_STR );
+		$q->execute();
+	}
 }

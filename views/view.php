@@ -30,6 +30,7 @@ class View {
 .footertext { text-align: center; }
 .footerpad { padding-top: 50px; }
 .navbar-brand {margin-top: -8px; }
+.form-row { margin-top: 10px; }
 CSS;
 		$this->addCss($css);
 

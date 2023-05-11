@@ -33,31 +33,36 @@ HTML;
 	/**
 	 * Generate the main section of the search results pagepage.
 	 */
-	public function getMainSection( $results = '' ) {
-		$user = Cookies::getUserInfo();
+	public function getMainSection( $userInfo = [] ) {
 
 		return <<<HTML
 <div class="container theme-showcase" role="main">
 {$this->messages}
-  <div class="row">
-		<h3>My Account</h3>
-		<form method="GET" class="form-horizontal" role="form" action="/myaccount">
-		<input type="hidden" name="cmd" value="myaccount"/>
-		<div class="form-group">
-			<label class="control-label">User Name:</label>
-			<span class="help-inline">
-				{$user[0]}
-			</span>
-			<label for="keywords" class="control-label">Search for: </label>
-			<label>
-				<input type="text" class="form-control" name="keywords" placeholder="Type search terms here" value="$keywords"/>
-			</label>
-		</div>
-		<div class="form-group">
-				<button type="submit" class="btn btn-primary">Update</button>
-		</div>
-  </div>
-  </form>
+	<h3>My Account</h3>
+	<form method="POST" class="form-horizontal" role="form" action="/myaccount">
+	<input type="hidden" name="cmd" value="myaccount"/>
+	<div class="mb-3">
+		<label class="form-label">User Name:</label>
+		<span class="help-inline">
+			{$userInfo['nickName']}
+		</span>
+	</div>
+	<div class="form-row mb-3">
+		<label for="email" class="form-label">Email:</label>
+		<input type="email" class="form-control" name="email" value="{$userInfo['email']}">
+	</div>
+	<div class="form-row mb-3">
+		<label for="firstName" class="form-label">First Name:</label>
+		<input type="text" class="form-control" name="firstName" value="{$userInfo['firstName']}">
+	</div>
+	<div class="form-row mb-3">
+		<label for="lastName" class="form-label">Last Name:</label>
+		<input type="text" class="form-control" name="lastName" value="{$userInfo['lastName']}">
+	</div>
+	<div class="form-row mb-3">
+		<button type="submit" class="btn btn-primary">Update</button>
+	</div>
+	</form>
 </div>
 HTML;
 	}
