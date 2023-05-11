@@ -37,8 +37,8 @@ page. Pages like the `/login` page are implemented by the `LoginView` class
 which extends `View`.
 # Database
 - The framework supports CRUD database operations. Originally it
-used `mysql` but I recently switched to `mariadb` with few changes.
+used `mysql` but I recently switched to `mariadb` with few changes required.
 - There is a singleton `DbConn` class that allows multiple classes
 within a page to share a common DB connection.
 # Presentation
-- The front end code is built upon [Bootstrap](https://getbootstrap.com/docs/3.4/css/) for CSS/presentation and [JQuery](https://jquery.com/) for javascript/interactivity. In this day and age modern front end projects tend to be build on a javascript framework such as `Angular` or `React` but I find these are overkill for a relatively simple set of web pages.
+- The front end code is built upon [Bootstrap](https://getbootstrap.com/docs/3.4/css/) for CSS/presentation and [JQuery](https://jquery.com/) for javascript/interactivity. In this day and age modern front end projects tend to be built on a javascript framework such as `Angular` or `React` but I find these are overkill for a relatively simple set of web pages.
