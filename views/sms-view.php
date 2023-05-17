@@ -41,6 +41,15 @@ HTML;
   </div>
   $msg
   <div class="row">
+	<div class="alert alert-danger">
+		<h4 class="alert-heading">Oh snap!</h4>
+		<p>
+		Since I first wrote this code a decade ago, 
+		Twilio has locked down access to sending free SMS messages due to
+		massive spam problems. I'm looking into getting an approved account
+		but until that happens this function stopped working.
+		</p>
+	</div>
 	<form method="POST" class="form-horizontal" role="form" action="/sms">
 	<div class="form-group">
 		<label for="number" class="col-md-2 control-label">Send to: </label>

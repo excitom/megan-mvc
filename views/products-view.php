@@ -59,6 +59,20 @@ HTML;
       <p>Type keywords to search in Amazon's index of books.</p>
     </div>
   </div>
+<div class="alert alert-danger">
+	<h4 class="alert-heading">Oh snap!</h4>
+	<p>
+	Since I first wrote this code a decade ago 
+	Amazon has locked down their free search APIs,
+	so this code stopped working until I set up an account as
+	a seller.
+	</p>
+	<p>
+	It's too bad, since this was a nice showcase for building SEO-fiendly
+	URLs based on the product search. For example if you searched for
+	"electronics headphones"  the result URL would be "/products/electronics/headphones".
+	</p>
+</div>
   <div class="row">
 	<div class="col-md-12">
 		<form method="GET" class="form-horizontal" role="form" action="/products">

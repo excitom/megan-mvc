@@ -53,6 +53,19 @@ HTML;
   <div class="row">
 	<div class="col-md-12">
 		<h3>Using Search Engines in Parallel</h3>
+		<div class="alert alert-danger">
+			<h4 class="alert-heading">Oh snap!</h4>
+			<p>
+			Since I first wrote this code a decade ago, 
+			the search engines have decided to close off
+			access to their APIs, so this code stopped working.
+			</p>
+			<p>
+			It's too bad, since the backend PHP function utilizes 
+			the <i>curl-multi</i> feature to make multiple API
+			calls in parallel.
+			</p>
+		</div>
 		<p>
 		With this form you can submit a search to either Google or Bing
 		or both. If you use both, the searches are submitted in parallel
