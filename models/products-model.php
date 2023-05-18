@@ -39,7 +39,7 @@ class ProductsModel extends Model {
 		// Sort the parameters by key
 		ksort($params);
 
-		$pairs = array();
+		$pairs = [];
 
 		foreach ($params as $key => $value) {
 			array_push($pairs, rawurlencode($key)."=".rawurlencode($value));

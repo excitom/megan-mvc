@@ -13,7 +13,7 @@ class SearchView extends View {
 	 */
 	public function setMessages( $messages ) {
 		if (!empty($messages)) {
-			$m = array();
+			$m = [];
 			foreach ($messages as $message) {
 				$m[] =<<<HTML
 <h3 class="text-danger">$message</h3>
@@ -123,7 +123,7 @@ HTML;
 			return '';
 		}
 
-		$columns = array();
+		$columns = [];
 		foreach ($results as $engine => $result) {
 			$r = json_decode($result, true);
 			$c = '';
@@ -151,7 +151,7 @@ HTML;
 		}
 		$results = $r['responseData']['results'];
 
-		$rows = array();
+		$rows = [];
 		foreach($results as $row) {
 			$rows[] =<<<HTML
 <div class="row">
@@ -187,7 +187,7 @@ HTML;
 		}
 
 		$results = $r['d']['results'];
-		$rows = array();
+		$rows = [];
 
 		// note: google's API is only giving me 8 results, not sure how to
 		// bump that up. meanwhile, to keep things balanced, don't show

@@ -109,7 +109,7 @@ class SearchModel extends Model {
 		curl_multi_close($mh);
   
 		// all of our requests are done, we can now access the response
-		$response = array();
+		$response = [];
 		if ($this->gch) {
 			$response['g'] = curl_multi_getcontent($this->gch);
 			curl_close($this->gch);

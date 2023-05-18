@@ -7,7 +7,7 @@ require $_SERVER['TW_PATH'].'/Twilio.php';
 class TwilioSms {
 	private $fromNumber;
 	private $twilio;
-	private $toNumbers = array();
+	private $toNumbers = [];
 
 	public function __construct() {
 		$this->fromNumber = $_SERVER['TW_PHONE'];

@@ -13,7 +13,7 @@ class ProductsView extends View {
 	 */
 	public function setMessages( $messages ) {
 		if (!empty($messages)) {
-			$m = array();
+			$m = [];
 			foreach ($messages as $message) {
 				$m[] =<<<HTML
 <h3 class="text-danger">$message</h3>
@@ -117,7 +117,7 @@ HTML;
 </div>
 HTML;
 		} else {
-			$rows = array();
+			$rows = [];
 			foreach( $results['Items']['Item'] as $item ) {
 				if (!empty($item['ItemAttributes']['ISBN'])) {
 					$isbn = $item['ItemAttributes']['ISBN'];

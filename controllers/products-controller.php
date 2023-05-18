@@ -6,7 +6,7 @@
  * input search string is turned into an SEO friendly URL.
  */
 class ProductsController extends Controller {
-	private $messages = array();
+	private $messages = [];
 
 	public function __construct( $parameters = null ) {
 

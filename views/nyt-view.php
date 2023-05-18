@@ -26,7 +26,7 @@ class NytView extends View {
 	 */
 	public function setMessages( $messages ) {
 		if (!empty($messages)) {
-			$m = array();
+			$m = [];
 			foreach ($messages as $message) {
 				$m[] =<<<HTML
 <h3 class="text-danger">$message</h3>

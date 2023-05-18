@@ -6,8 +6,8 @@
  */
 class SearchController extends Controller {
 	protected $parameters = '';
-	private $engines = array();
-	private $messages = array();
+	private $engines = [];
+	private $messages = [];
 
 	public function __construct( $parameters ) {
 		// parse the query string to find search keywords

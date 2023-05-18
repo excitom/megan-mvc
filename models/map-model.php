@@ -34,7 +34,7 @@ class MapModel extends Model {
         	if ($latitude && $longitude && $formatted_address) {
          
             	// put the data in the array
-            	$data = array();            
+            	$data = [];            
              
             	array_push(
                 	$data, 

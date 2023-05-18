@@ -4,7 +4,7 @@
  * that will be displayed on a Google map
  */
 class MapController extends Controller {
-	private $messages = array();
+	private $messages = [];
 
 	public function run( $results = '' ) {
 		// parse the query string to find search keywords
