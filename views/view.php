@@ -298,6 +298,7 @@ HTML;
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examples <span class="caret"></span></a>
     <ul class="dropdown-menu">
+      <li><a href="/nyt">Show the Top Articles from NYT</a></li>
       <li><a href="/search">Search using Google and Bing</a></li>
       <li><a href="/products">Search using Amazon</a></li>
       <li><a href="/sms">Send an SMS message using Twilio</a></li>
