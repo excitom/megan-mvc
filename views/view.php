@@ -2,12 +2,12 @@
 class View {
 	private $title;
 	private $docType;
-	private $js = array();
-	private $css = array();
-	private $scriptLinks = array();
-	private $cssLinks = array();
-	private $metaTags = array();
-	private $modalWindows = array();
+	private $js = [];
+	private $css = [];
+	private $scriptLinks = [];
+	private $cssLinks = [];
+	private $metaTags = [];
+	private $modalWindows = [];
 	private $cdnUrl = 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6';
 
 	// keep track of which menu item is active in the nav bar
@@ -91,7 +91,7 @@ HTML;
 	 * Generate META tags for the page
 	 */
 	protected function getMetaTags() {
-		$tags = array();
+		$tags = [];
 
 		// start with required tags for responsiveness
 		$tags[] = '<meta charset="utf-8">';
