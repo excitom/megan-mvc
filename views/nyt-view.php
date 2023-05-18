@@ -83,10 +83,7 @@ HTML;
 	</div>
   	</form>
   </div>
-  <div class="row">
 $rows
-  </div>
-</div>
 HTML;
 	}
 
@@ -113,12 +110,12 @@ HTML;
 				$url = '';
 			}
 			$rows[] =<<<HTML
+<h4>{$article->title}</h4>
 <div class="row">
-	<h4>{$article->title}</h4>
 	<div class="col-sm-2">
 		<img width="{$mm->width}" height="{$mm->height}" src="{$mm->url}">
 	</div>
-	<div class="col-sm-5">
+	<div class="col-sm-10">
 		<p>
 		{$article->abstract}
 		</p>
@@ -135,8 +132,12 @@ HTML;
 		}
 		$rows = join("\n", $rows);
 		return <<<HTML
-<h2>$section</h2>
-	$rows
+<div class="row">
+	<div class="col-md-12">
+		<h2>$section</h2>
+	</div>
+</div>
+$rows
 HTML;
 	}
 }
