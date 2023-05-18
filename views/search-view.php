@@ -65,6 +65,9 @@ HTML;
 			the <i>curl-multi</i> feature to make multiple API
 			calls in parallel.
 			</p>
+			<p>
+			See the code <a href="https://github.com/excitom/megan-mvc/blob/main/models/search-model.php">here</a>.
+			</p>
 		</div>
 		<p>
 		With this form you can submit a search to either Google or Bing

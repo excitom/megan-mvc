@@ -72,6 +72,12 @@ HTML;
 	URLs based on the product search. For example if you searched for
 	"electronics headphones"  the result URL would be "/products/electronics/headphones".
 	</p>
+	<p>
+	You can see the code. The <a href="https://github.com/excitom/megan-mvc/blob/main/controllers/products-controller.php">controller</a> generates
+	the SEO URL and redirects to it, the <a href="https://github.com/excitom/megan-mvc/blob/main/models/products-model.php">model</a>
+	does the product search, and the 
+	<a href="https://github.com/excitom/megan-mvc/blob/main/views/products-view.php">view</a> decodes and formats the search results.
+	</p>
 </div>
   <div class="row">
 	<div class="col-md-12">
