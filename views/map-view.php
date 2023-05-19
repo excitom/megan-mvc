@@ -5,7 +5,17 @@ class MapView extends View {
 
 	public function __construct( $title = 'This page uses Google Maps' ) {
 		parent::__construct( $title );
-		$this->addScriptLink('https://maps.google.com/maps/api/js');
+		$js =<<<JS
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+    key: "AIzaSyBNWOjto6w4q5BoOUyvSy5zo7A8vDKtAEo",
+    v: "weekly",
+  });
+JS;
+		$this->addInlineJs($js);
+		$map = "<script async src='https://maps.googleapis.com/maps/api/js?key=";
+		$map .= $_SERVER['GOOGLE_API_KEY'];
+		$map .= "&callback=initMap'></script>";
+		$this->addScriptLink($map);
 		$css =<<<CSS
 #gmap_canvas {
 	width: 100%;
@@ -111,13 +121,14 @@ HTML;
         	$formatted_address = $results[2];
 
 			$js =<<<JAVASCRIPT
-function init_map() {
-	var myOptions = {
-		zoom: 14,
-		center: new google.maps.LatLng($latitude,$longitude),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
+let map;
+async function initMap() {
+  const { Map } = await google.maps.importLibrary("maps");
+  map = new Map(document.getElementById("gmap_canvas"), {
+    center: { lat: $latitude, lng: $longitude },
+    zoom: 14,
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
 	marker = new google.maps.Marker({
 			map: map,
 			position: new google.maps.LatLng($latitude,$longitude)
@@ -130,7 +141,8 @@ function init_map() {
 	});
 	infowindow.open(map, marker);
 }
-google.maps.event.addDomListener(window, 'load', init_map);
+
+initMap();
 JAVASCRIPT;
 			$this->addInlineJs($js);
 
