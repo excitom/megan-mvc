@@ -5,7 +5,7 @@ class MapView extends View {
 
 	public function __construct( $title = 'This page uses Google Maps' ) {
 		parent::__construct( $title );
-		$this->addScriptLink('http://maps.google.com/maps/api/js');
+		$this->addScriptLink('https://maps.google.com/maps/api/js');
 		$css =<<<CSS
 #gmap_canvas {
 	width: 100%;

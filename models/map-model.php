@@ -4,10 +4,9 @@
  * of an input street address.
  */
 class MapModel extends Model {
-    private $url = 'http://maps.google.com/maps/api/geocode/json?address=';
+    private $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 
 	public function run( $address ) {
- 
     	// get latitude, longitude and formatted address
     	return $this->geocode($address);
 	}
@@ -15,9 +14,11 @@ class MapModel extends Model {
 	private function geocode( $address ) {
     	// google map geocode api url
     	$url = $this->url . urlencode($address);
- 
+		$url .= '&key=';
+		$url .= $_SERVER['GOOGLE_API_KEY'];
+
     	// get the json response
-    	$resp_json = file_get_contents($url);
+		$resp_json = file_get_contents($url);
      
     	// decode the json
     	$resp = json_decode($resp_json, true);
