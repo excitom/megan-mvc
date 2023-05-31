@@ -5,6 +5,7 @@ class NytView extends View {
 	private $sections = [
 		'home' => 'Front Page',
 		'arts' => 'Arts',
+		'realestate' => 'Real Estate',
 		'science' => 'Science',
 		'sports' => 'Sports',
 		'us' => 'U.S. News',
