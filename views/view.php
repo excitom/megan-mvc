@@ -31,6 +31,7 @@ class View {
 .footerpad { padding-top: 50px; }
 .navbar-brand {margin-top: -8px; }
 .form-row { margin-top: 10px; }
+.navbar { padding: 10px 0 10px 0; }
 CSS;
 		$this->addCss($css);
 
@@ -483,8 +484,10 @@ HTML;
 
 		return <<<HTML
 <footer class="clearfix">
-    <div class="footertext footerpad">
-        Copyright &copy; $year Halsoft.com, Inc.
+	<div class="footertext footerpad">
+<div style="background-color: white; padding: 5px;">
+		Copyright &copy; $year Halsoft.com, Inc.
+</div>
     </div>
 </footer>
 HTML;
